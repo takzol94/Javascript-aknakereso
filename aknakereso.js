@@ -1,1 +1,1 @@
-console.log('aknakereso')
+console.log('aknakereso a legkirályabb játék')
