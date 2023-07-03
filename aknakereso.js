@@ -3,10 +3,11 @@ const canvas = document.getElementById("myCanvas");
 const c = canvas.getContext("2d");
 
 const size = 50;
+const columns = canvas.width / size;
 
-drawImage(0,0);
-drawImage(50,0);
-drawImage(100,0);
+for (let i = 0; i < columns; i++) {
+    drawImage(i * size, 0);
+}
 
 function drawImage(x, y) {
   c.drawImage(image, x, y, size, size);
