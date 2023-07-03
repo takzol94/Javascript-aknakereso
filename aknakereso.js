@@ -3,8 +3,11 @@ const canvas = document.getElementById("myCanvas");
 const c = canvas.getContext("2d");
 
 const size = 50;
-let x = 0;
-let y = 0;
 
-c.drawImage(image, x, y, size, size);
-c.drawImage(image, x + size, y + size, size, size);
+drawImage(0,0);
+drawImage(50,0);
+drawImage(100,0);
+
+function drawImage(x, y) {
+  c.drawImage(image, x, y, size, size);
+}
