@@ -9,6 +9,8 @@ const mine = "mine";
 
 let map = createMap(); // Ezzel a függvénnyel töltjük fel a pályát.
 
+map[3][4] = mine;
+
 console.log(map);
 
 drawMap();    // Ezzel a függvénnyel rajzoljuk ki a pályát.
@@ -16,12 +18,13 @@ drawMap();    // Ezzel a függvénnyel rajzoljuk ki a pályát.
 
 function createMap() {
   let map = [];
-    for (let i = 0; i < rows; i++) {
-     map[i] = [0];
-      for (let j = 0; j < columns; j++) {
-        map[i][j] = [0];      
-      }
+  for (let j = 0; j < rows; j++) {
+    let row = [];
+    for (let i = 0; i < columns; i++) {
+      row[i] = 0;
     }
+    map[j] = row;
+  }
   return map;
 }
 
