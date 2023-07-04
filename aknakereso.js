@@ -6,7 +6,7 @@ const size = 50;
 const columns = canvas.width / size;
 const rows = canvas.height / size;
 
-drawMap();
+drawMap();    // Ezzel a függvénnyel rajzoljuk ki a pályát.
 
 function drawMap() {
   for (let j = 0; j < rows; j++) {
