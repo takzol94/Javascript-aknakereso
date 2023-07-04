@@ -5,11 +5,11 @@ const c = canvas.getContext("2d");
 const size = 50;
 const columns = canvas.width / size;
 const rows = canvas.height / size;
-
+const mine = "mine";
 
 let map = [
-  [0, 0, 0, 3, 0, 0, 0, 0, 0, 0],
- [0, 0, 0, 0, 2, 0, 0, 1, 0, 0]
+  [0, 0, 0, 3, mine, 0, mine, 0, 0, 0],
+ [0, 0, 1, mine, mine, 1, 1, 1, 0, 0]
 ];
 
 console.log(map);
