@@ -7,14 +7,23 @@ const columns = canvas.width / size;
 const rows = canvas.height / size;
 const mine = "mine";
 
-let map = [
-  [0, 0, 0, 3, mine, 0, mine, 0, 0, 0],
- [0, 0, 1, mine, mine, 1, 1, 1, 0, 0]
-];
+let map = createMap(); // Ezzel a függvénnyel töltjük fel a pályát.
 
 console.log(map);
 
 drawMap();    // Ezzel a függvénnyel rajzoljuk ki a pályát.
+
+
+function createMap() {
+  let map = [];
+    for (let i = 0; i < rows; i++) {
+     map[i] = [0];
+      for (let j = 0; j < columns; j++) {
+        map[i][j] = [0];      
+      }
+    }
+  return map;
+}
 
 function drawMap() {
   for (let j = 0; j < rows; j++) {
