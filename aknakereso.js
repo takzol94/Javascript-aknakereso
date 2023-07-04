@@ -6,10 +6,11 @@ const size = 50;
 const columns = canvas.width / size;
 const rows = canvas.height / size;
 
-let firstRow = [0, 0, 0, 3, 0, 0, 0, 0, 0, 0];
-let secondRow = [0, 0, 0, 0, 2, 0, 0, 1, 0, 0];
 
-let map = [firstRow, secondRow];
+let map = [
+  [0, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+ [0, 0, 0, 0, 2, 0, 0, 1, 0, 0]
+];
 
 console.log(map);
 
