@@ -4,9 +4,16 @@ const c = canvas.getContext("2d");
 
 const size = 50;
 const columns = canvas.width / size;
+const rows = canvas.height / size;
 
-for (let i = 0; i < columns; i++) {
-    drawImage(i * size, 0);
+drawMap();
+
+function drawMap() {
+  for (let j = 0; j < rows; j++) {
+    for (let i = 0; i < columns; i++) {
+        drawImage(i * size, j * size);
+    }
+    }
 }
 
 function drawImage(x, y) {
