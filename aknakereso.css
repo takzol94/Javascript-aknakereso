@@ -14,7 +14,7 @@ html, body {
 }
 
 body {
-  background-image: url("assets/wooden_background.png");
+  background-image: url("kellekek/wooden_background.png");
   background-size: contain;
   background-repeat: repeat;
   background-position-y: 18vh;
