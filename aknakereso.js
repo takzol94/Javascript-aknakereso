@@ -27,7 +27,7 @@ calculateFieldValues(map);  // Ezzel a függvénnyel számoljuk ki, hogy egy mez
 
 drawMap();    // Ezzel a függvénnyel rajzoljuk ki a pályát.
 
-function calculateFieldValues(map) {
+function calculateFieldValues(map) {  
   for (let j = 0; j < rows; j++) {
     for (let i = 0; i < columns; i++) {
       let field = map[j][i];
@@ -40,7 +40,7 @@ function calculateFieldValues(map) {
   }
 }
 
-function countMines(map, neighbourCalculates) {
+function countMines(map, neighbourCalculates) {  
   let countMine = 0;
   for (let k = 0; k < neighbourCalculates.length; k++) {
     let neighbour = neighbourCalculates[k];
