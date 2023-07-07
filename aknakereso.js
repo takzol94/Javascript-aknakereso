@@ -26,7 +26,30 @@ placeMines(map , mineCount)  // Ezzel a függvénnyel helyezzük el random az ak
 
 drawMap();    // Ezzel a függvénnyel rajzoljuk ki a pályát.
 
-console.log(map);
+function calculateFieldValues(map) {
+  for (let j = 0; j < rows; j++) {
+    for (let i = 0; i < columns; i++) {
+      let field = map[j][i];
+      if (field !== mine) {
+        let neighbourCalculates = findNeighboursFields(map, i, j);
+      }
+    }
+  }
+}
+
+function findNeighboursFields(map, i, j) {
+  let neighbourCalculates = [];
+  for (let y = j - 1; y <= j + 1; y++) {
+    for (let x = i - 1; x <= i + 1; x++) {
+      if (x >= 0 && x < columns && y >= 0 && y < rows) {
+        if (x !== i || y !== j) {
+          neighbourCalculates.push({x: x, y: y});
+        }
+      }
+    }
+  }
+return neighbourCalculates;
+}
 
 function placeMines(map , mineCount) {
   let mines = 0;
