@@ -23,6 +23,7 @@ const images = {
 let map = createMap(); // Ezzel a függvénnyel töltjük fel a pályát.
 
 placeMines(map , mineCount)  // Ezzel a függvénnyel helyezzük el random az aknákat a pályán.
+calculateFieldValues(map);  // Ezzel a függvénnyel számoljuk ki, hogy egy mező körül hány akna van.
 
 drawMap();    // Ezzel a függvénnyel rajzoljuk ki a pályát.
 
@@ -32,12 +33,26 @@ function calculateFieldValues(map) {
       let field = map[j][i];
       if (field !== mine) {
         let neighbourCalculates = findNeighboursFields(map, i, j);
+          let countMine = countMines(map, neighbourCalculates);
+          map[j][i] = countMine;
       }
     }
   }
 }
 
-function findNeighboursFields(map, i, j) {
+function countMines(map, neighbourCalculates) {
+  let countMine = 0;
+  for (let k = 0; k < neighbourCalculates.length; k++) {
+    let neighbour = neighbourCalculates[k];
+    let neighbourField = map[neighbour.y][neighbour.x];
+    if (neighbourField === mine) {
+      countMine++;
+    }
+  }
+  return countMine;
+}
+
+function findNeighboursFields(map, i, j) {  // Ezzel a függvénnyel keresem meg egy mező körül a szomszédos mezőket.
   let neighbourCalculates = [];
   for (let y = j - 1; y <= j + 1; y++) {
     for (let x = i - 1; x <= i + 1; x++) {
