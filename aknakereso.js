@@ -21,6 +21,7 @@ const images = {
 }
 
 let map = createMap(); // Ezzel a függvénnyel töltjük fel a pályát.
+let exploredMap = createxploredMap();
 
 placeMines(map , mineCount)  // Ezzel a függvénnyel helyezzük el random az aknákat a pályán.
 calculateFieldValues(map);  // Ezzel a függvénnyel számoljuk ki, hogy egy mező körül hány akna van.
@@ -78,6 +79,18 @@ function placeMines(map , mineCount) {
   }
 }
 
+function createxploredMap() {
+  let exploredMap = [];
+  for (let j = 0; j < rows; j++) {
+    let row = [];
+    for (let i = 0; i < columns; i++) {
+      row[i] = false;
+    }
+    exploredMap[j] = row;
+  }
+  return exploredMap;
+}
+
 function createMap() {
   let map = [];
   for (let j = 0; j < rows; j++) {
@@ -93,9 +106,14 @@ function createMap() {
 function drawMap() {
   for (let j = 0; j < rows; j++) {
     for (let i = 0; i < columns; i++) {
-      let field = map[j][i];
-      let image = images[field]
-      drawImage(image, i * size, j * size);
+      if (exploredMap[j][i] === false) {
+        drawImage(images["hidden"], i * size, j * size);
+      }
+        else {
+        let field = map[j][i];
+        let image = images[field]
+        drawImage(image, i * size, j * size);
+      }
     }
   }
 }
