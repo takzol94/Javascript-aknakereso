@@ -28,7 +28,7 @@ calculateFieldValues(map);  // Ezzel a függvénnyel számoljuk ki, hogy egy mez
 
 drawMap();    // Ezzel a függvénnyel rajzoljuk ki a pályát.
 
-canvas.addEventListener("click", function(event) {
+canvas.addEventListener("click", function(event) {  // Ezzel a függvénnyel vizsgáljuk meg, hogy melyik mezőt kattintottuk meg.
   let x = Math.floor(event.offsetX / size);
   let y = Math.floor(event.offsetY / size);
   exploredMap[y][x] = true;
