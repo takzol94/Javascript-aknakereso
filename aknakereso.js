@@ -28,6 +28,13 @@ calculateFieldValues(map);  // Ezzel a függvénnyel számoljuk ki, hogy egy mez
 
 drawMap();    // Ezzel a függvénnyel rajzoljuk ki a pályát.
 
+canvas.addEventListener("click", function(event) {
+  let x = Math.floor(event.offsetX / size);
+  let y = Math.floor(event.offsetY / size);
+  exploredMap[y][x] = true;
+  drawMap();
+});
+
 function calculateFieldValues(map) {  
   for (let j = 0; j < rows; j++) {
     for (let i = 0; i < columns; i++) {
