@@ -36,16 +36,7 @@ canvas.addEventListener("click", function(event) {  // Ezzel a függvénnyel viz
   drawMap();
 }
 });
-
-hidden.addEventListener("click", playsound);
-
-function playsound() {
-  let audio = new Audio("audio.mp3");
-  audio.play();
-}
-
-
-
+  
 function exploreEmptyArea(x, y) {
   if (x >= 0 && x < columns && y >= 0 && y < rows && !exploredMap[y][x]) {
     exploredMap[y][x] = true;
