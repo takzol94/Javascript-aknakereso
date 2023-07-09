@@ -31,9 +31,37 @@ drawMap();    // Ezzel a függvénnyel rajzoljuk ki a pályát.
 canvas.addEventListener("click", function(event) {  // Ezzel a függvénnyel vizsgáljuk meg, hogy melyik mezőt kattintottuk meg.
   let x = Math.floor(event.offsetX / size);
   let y = Math.floor(event.offsetY / size);
-  exploredMap[y][x] = true;
+  if (!exploredMap[y][x]) {
+    exploreEmptyArea(x, y);
   drawMap();
+}
 });
+
+hidden.addEventListener("click", playsound);
+
+function playsound() {
+  let audio = new Audio("audio.mp3");
+  audio.play();
+}
+
+
+
+function exploreEmptyArea(x, y) {
+  if (x >= 0 && x < columns && y >= 0 && y < rows && !exploredMap[y][x]) {
+    exploredMap[y][x] = true;
+    if (map[y][x] === 0) {
+      exploreEmptyArea(x - 1, y - 1);
+      exploreEmptyArea(x, y - 1);
+      exploreEmptyArea(x + 1, y - 1);
+      exploreEmptyArea(x - 1, y);
+      exploreEmptyArea(x + 1, y);
+      exploreEmptyArea(x - 1, y + 1);
+      exploreEmptyArea(x, y + 1);
+      exploreEmptyArea(x + 1, y + 1);
+    }
+  }
+}
+
 
 function calculateFieldValues(map) {  
   for (let j = 0; j < rows; j++) {
