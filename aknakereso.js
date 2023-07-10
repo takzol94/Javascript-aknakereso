@@ -1,5 +1,6 @@
 const canvas = document.getElementById("myCanvas");
 const c = canvas.getContext("2d");
+const actionButton = document.getElementById("action-button");
 
 const size = 50;
 const columns = canvas.width / size;
@@ -20,8 +21,16 @@ const images = {
   "8": document.getElementById("field-8"),
 }
 
+const buttons = {
+  start : "kellekek/button-start.png",
+  lost: "kellekek/button-lost.png",
+  won: "kellekek/button-won.png",
+}
+
+let isGameOver = false; // Ezzel a változóval vizsgáljuk meg, hogy vége van-e a játéknak.
 let map = createMap(); // Ezzel a függvénnyel töltjük fel a pályát.
 let exploredMap = createxploredMap();
+
 
 placeMines(map , mineCount)  // Ezzel a függvénnyel helyezzük el random az aknákat a pályán.
 calculateFieldValues(map);  // Ezzel a függvénnyel számoljuk ki, hogy egy mező körül hány akna van.
@@ -29,13 +38,20 @@ calculateFieldValues(map);  // Ezzel a függvénnyel számoljuk ki, hogy egy mez
 drawMap();    // Ezzel a függvénnyel rajzoljuk ki a pályát.
 
 canvas.addEventListener("click", function(event) {  // Ezzel a függvénnyel vizsgáljuk meg, hogy melyik mezőt kattintottuk meg.
+  if (isGameOver) return;
   let x = Math.floor(event.offsetX / size);
   let y = Math.floor(event.offsetY / size);
   if (!exploredMap[y][x]) {
-    exploreEmptyArea(x, y);
+  exploredMap[y][x] = true;
+  exploreEmptyArea(x, y);
   drawMap();
-}
+  if (map[y][x] === mine) {
+  isGameOver = true;
+  actionButton.src = buttons.lost;
+   }
+  }
 });
+
   
 function exploreEmptyArea(x, y) {
   if (x >= 0 && x < columns && y >= 0 && y < rows && !exploredMap[y][x]) {
@@ -134,10 +150,9 @@ function drawMap() {
     for (let i = 0; i < columns; i++) {
       if (exploredMap[j][i] === false) {
         drawImage(images["hidden"], i * size, j * size);
-      }
-        else {
+      } else {
         let field = map[j][i];
-        let image = images[field]
+        let image = images[field];
         drawImage(image, i * size, j * size);
       }
     }
