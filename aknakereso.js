@@ -29,6 +29,7 @@ const buttons = {
 
 let isGameOver = false; // Ezzel a változóval vizsgáljuk meg, hogy vége van-e a játéknak.
 let firstClick = true; // Ezzel a változóval vizsgáljuk meg, hogy az első kattintás volt-e.
+let exploredFields = 0; // Ezzel a változóval vizsgáljuk meg, hogy hány mezőt fedeztünk fel.
 let map = createMap(); // Ezzel a függvénnyel töltjük fel a pályát.
 let exploredMap = createxploredMap();
 
@@ -43,21 +44,22 @@ canvas.addEventListener("click", function(event) {  // Ezzel a függvénnyel viz
     calculateFieldValues(map);  // Ezzel a függvénnyel számoljuk ki, hogy egy mező körül hány akna van.
     firstClick = false;
   }
-  if (!exploredMap[y][x]) {
-  exploredMap[y][x] = true;
   exploreEmptyArea(x, y);
   drawMap();
   if (map[y][x] === mine) {
   isGameOver = true;
   actionButton.src = buttons.lost;
+  } else if (exploredFields === (columns * rows) - mineCount) {
+  isGameOver = true;
+  actionButton.src = buttons.won;
       }
-    }
   });
 
   
 function exploreEmptyArea(x, y) {
   if (x >= 0 && x < columns && y >= 0 && y < rows && !exploredMap[y][x]) {
     exploredMap[y][x] = true;
+    exploredFields++;
     if (map[y][x] === 0) {
       exploreEmptyArea(x - 1, y - 1);
       exploreEmptyArea(x, y - 1);
