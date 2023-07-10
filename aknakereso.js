@@ -28,12 +28,9 @@ const buttons = {
 }
 
 let isGameOver = false; // Ezzel a változóval vizsgáljuk meg, hogy vége van-e a játéknak.
+let firstClick = true; // Ezzel a változóval vizsgáljuk meg, hogy az első kattintás volt-e.
 let map = createMap(); // Ezzel a függvénnyel töltjük fel a pályát.
 let exploredMap = createxploredMap();
-
-
-placeMines(map , mineCount)  // Ezzel a függvénnyel helyezzük el random az aknákat a pályán.
-calculateFieldValues(map);  // Ezzel a függvénnyel számoljuk ki, hogy egy mező körül hány akna van.
 
 drawMap();    // Ezzel a függvénnyel rajzoljuk ki a pályát.
 
@@ -41,6 +38,11 @@ canvas.addEventListener("click", function(event) {  // Ezzel a függvénnyel viz
   if (isGameOver) return;
   let x = Math.floor(event.offsetX / size);
   let y = Math.floor(event.offsetY / size);
+  if (firstClick) {
+    placeMines(map, mineCount, y, x)  // Ezzel a függvénnyel helyezzük el random az aknákat a pályán.
+    calculateFieldValues(map);  // Ezzel a függvénnyel számoljuk ki, hogy egy mező körül hány akna van.
+    firstClick = false;
+  }
   if (!exploredMap[y][x]) {
   exploredMap[y][x] = true;
   exploreEmptyArea(x, y);
@@ -48,9 +50,9 @@ canvas.addEventListener("click", function(event) {  // Ezzel a függvénnyel viz
   if (map[y][x] === mine) {
   isGameOver = true;
   actionButton.src = buttons.lost;
-   }
-  }
-});
+      }
+    }
+  });
 
   
 function exploreEmptyArea(x, y) {
@@ -109,12 +111,12 @@ function findNeighboursFields(map, i, j) {  // Ezzel a függvénnyel keresem meg
 return neighbourCalculates;
 }
 
-function placeMines(map , mineCount) {
+function placeMines(map , mineCount, startRow, startCol) {
   let mines = 0;
   while (mines < mineCount) {
     let x = Math.floor(Math.random() * columns);
     let y = Math.floor(Math.random() * rows);
-    if (map[y][x] !== mine) {
+    if (x !== startRow && y !== startCol && map[y][x] !== mine) {
       map[y][x] = mine;
       mines++;
     }
