@@ -27,13 +27,13 @@ const buttons = {
   won: "kellekek/button-won.png",
 }
 
-let isGameOver = false; // Ezzel a változóval vizsgáljuk meg, hogy vége van-e a játéknak.
-let firstClick = true; // Ezzel a változóval vizsgáljuk meg, hogy az első kattintás volt-e.
-let exploredFields = 0; // Ezzel a változóval vizsgáljuk meg, hogy hány mezőt fedeztünk fel.
-let map = createMap(); // Ezzel a függvénnyel töltjük fel a pályát.
-let exploredMap = createxploredMap();
+let isGameOver // Ezzel a változóval vizsgáljuk meg, hogy vége van-e a játéknak.
+let firstClick // Ezzel a változóval vizsgáljuk meg, hogy az első kattintás volt-e.
+let exploredFields // Ezzel a változóval vizsgáljuk meg, hogy hány mezőt fedeztünk fel.
+let map  // Ezzel a függvénnyel töltjük fel a pályát.
+let exploredMap 
 
-drawMap();    // Ezzel a függvénnyel rajzoljuk ki a pályát.
+initGame(); // Ezzel a függvénnyel indítjuk el a játékot.
 
 canvas.addEventListener("click", function(event) {  // Ezzel a függvénnyel vizsgáljuk meg, hogy melyik mezőt kattintottuk meg.
   if (isGameOver) return;
@@ -55,7 +55,21 @@ canvas.addEventListener("click", function(event) {  // Ezzel a függvénnyel viz
       }
   });
 
-  
+actionButton.addEventListener("click", function() {  // Ezzel a függvénnyel indítjuk újra a játékot.
+  initGame();
+});
+
+function initGame() {
+  isGameOver = false;
+  firstClick = true;
+  exploredFields = 0;
+  map = createMap();
+  exploredMap = createxploredMap();
+  drawMap();
+  actionButton.src = buttons.start;
+}
+
+
 function exploreEmptyArea(x, y) {
   if (x >= 0 && x < columns && y >= 0 && y < rows && !exploredMap[y][x]) {
     exploredMap[y][x] = true;
