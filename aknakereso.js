@@ -2,6 +2,7 @@ const canvas = document.getElementById("myCanvas");
 const c = canvas.getContext("2d");
 const actionButton = document.getElementById("action-button");
 const mineCounter = document.getElementById("mine-count");
+const timerCounter = document.getElementById("time");
 
 const size = 50;
 const columns = canvas.width / size;
@@ -37,6 +38,7 @@ let flagMap // Ezzel a változóval vizsgáljuk meg, hogy melyik mezőre tettün
 let map  // Ezzel a változóval töltjük fel a pályát.
 let exploredMap // Ezzel a változóval vizsgáljuk meg, hogy melyik mezőt fedeztük fel.
 let remainingMines // Ezzel a változóval vizsgáljuk meg, hogy hány akna van még hátra.
+let timer // Ezzel a változóval vizsgáljuk meg, hogy hány másodperc telt el.
 
 initGame(); // Ezzel a függvénnyel indítjuk el a játékot.
 
@@ -48,14 +50,17 @@ canvas.addEventListener("click", function(event) {  // Ezzel a függvénnyel viz
     placeMines(map, mineCount, y, x)  // Ezzel a függvénnyel helyezzük el random az aknákat a pályán.
     calculateFieldValues(map);  // Ezzel a függvénnyel számoljuk ki, hogy egy mező körül hány akna van.
     isfirstClick = false;
+    startTimer();
   }
   exploreField(y, x);
   drawMap();
   if (map[y][x] === mine) {
   loseGame();
+  stopTimer();
   } else if (exploredFields === (columns * rows) - mineCount) {
   isGameOver = true;
   actionButton.src = buttons.won;
+  stopTimer();
       }
   });
 
@@ -70,8 +75,22 @@ canvas.addEventListener("click", function(event) {  // Ezzel a függvénnyel viz
     mineCounter.innerHTML = convertNumberTo3DigitString(remainingMines);
   });
 
+function startTimer() {
+  seconds = 0;
+  timer = setInterval(function() {
+    seconds = Math.min(seconds + 1, 999);
+    timerCounter.innerHTML = convertNumberTo3DigitString(seconds);
+  }, 1000);
+};
+
+function stopTimer() {
+  clearInterval(timer);
+}
+
 actionButton.addEventListener("click", function() {  // Ezzel a függvénnyel indítjuk újra a játékot.
   initGame();
+  stopTimer();
+  timerCounter.innerHTML = convertNumberTo3DigitString(0);
 });
 
 function initGame() {
