@@ -4,11 +4,12 @@ const actionButton = document.getElementById("action-button");
 const mineCounter = document.getElementById("mine-count");
 const timerCounter = document.getElementById("time");
 
+
 const size = 50;
 const columns = canvas.width / size;
 const rows = canvas.height / size;
 const mine = "mine";
-const mineCount = 20;
+const mineCount = 25;
 const images = {
   "hidden": document.getElementById("hidden"),
   "mine": document.getElementById("exploded-mine"),
