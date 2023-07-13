@@ -54,7 +54,7 @@ canvas.addEventListener("click", function(event) {  // Ezzel a függvénnyel viz
   }
   exploreField(y, x);
   drawMap();
-  if (map[y][x] === mine) {
+  if (map[y][x] === mine && exploredMap[y][x]) {
   loseGame();
   stopTimer();
   } else if (exploredFields === (columns * rows) - mineCount) {
@@ -119,7 +119,7 @@ for (let j = 0; j < rows; j++) {
 };
 
 function exploreField(y, x) {
-  if (exploredMap[y][x] === false) {
+  if (!exploredMap[y][x] && !flagMap[y][x]) {
     exploredFields++;
     exploredMap[y][x] = true;
     if (map[y][x] === 0) {
