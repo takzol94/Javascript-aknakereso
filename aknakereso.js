@@ -13,6 +13,7 @@ const mineCount = 25;
 const images = {
   "hidden": document.getElementById("hidden"),
   "mine": document.getElementById("exploded-mine"),
+  "allmines": document.getElementById("mine"),
   "flag": document.getElementById("flag"),
   "flaggedWrong": document.getElementById("flagged-wrong"),
   "0": document.getElementById("field-0"),
@@ -58,12 +59,14 @@ canvas.addEventListener("click", function(event) {  // Ezzel a függvénnyel viz
   if (map[y][x] === mine && exploredMap[y][x]) {
   loseGame();
   stopTimer();
+  revealAllMines();
   } else if (exploredFields === (columns * rows) - mineCount) {
   isGameOver = true;
   actionButton.src = buttons.won;
   stopTimer();
-      }
-  });
+  flagAllMines();
+  }
+});
 
   canvas.addEventListener("contextmenu", function(event) {
     event.preventDefault();
@@ -108,12 +111,36 @@ function initGame() {
 };
 
 function loseGame() {
-isGameOver = true;
-actionButton.src = buttons.lost;
-for (let j = 0; j < rows; j++) {
-  for (let i = 0; i < columns; i++) {
-    if (flagMap[j][i] && map[j][i] !== mine) {
+  isGameOver = true;
+  actionButton.src = buttons.lost;
+  for (let j = 0; j < rows; j++) {
+    for (let i = 0; i < columns; i++) {
+      if (flagMap[j][i] && map[j][i] !== mine) {
         drawImage(images["flaggedWrong"], i * size, j * size);
+      }
+    }
+  }
+}
+
+
+function flagAllMines() {
+  for (let j = 0; j < rows; j++) {
+    for (let i = 0; i < columns; i++) {
+      if (map[j][i] === mine) {
+        flagMap[j][i] = true;
+      }
+      let remainingMines = 0;
+      mineCounter.innerHTML = convertNumberTo3DigitString(remainingMines);
+    }
+  }
+  drawMap();
+};
+
+function revealAllMines() {
+  for (let j = 0; j < rows; j++) {
+    for (let i = 0; i < columns; i++) {
+      if (map[j][i] === mine && !flagMap[j][i] && !exploredMap[j][i]) {
+        drawImage(images["allmines"], i * size, j * size);
       }
     }
   }
@@ -172,7 +199,7 @@ function findNeighboursFields(map, j, i) {  // Ezzel a függvénnyel keresem meg
 return neighbourCalculates;
 };
 
-function placeMines(map , mineCount, j, i) {
+function placeMines(map, mineCount, j, i) {
   let mines = 0;
   while (mines < mineCount) {
     let x = Math.floor(Math.random() * columns);
@@ -219,6 +246,9 @@ function drawMap() {
       } else {
         if (!flagMap[j][i]) {
         let field = map[j][i];
+        if (field === mine) {
+        drawImage(images["mine"], i * size, j * size);
+        }
         let image = images[field];
         drawImage(image, i * size, j * size);
         }
