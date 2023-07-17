@@ -8,7 +8,7 @@ const size = 50;
 const columns = canvas.width / size;
 const rows = canvas.height / size;
 const mine = "mine";
-const mineCount = 25;
+const mineCount = 3;
 const images = {
   "hidden": document.getElementById("hidden"),
   "mine": document.getElementById("exploded-mine"),
@@ -41,9 +41,9 @@ let exploredMap // Ezzel a változóval vizsgáljuk meg, hogy melyik mezőt fede
 let remainingMines // Ezzel a változóval vizsgáljuk meg, hogy hány akna van még hátra.
 let timer // Ezzel a változóval vizsgáljuk meg, hogy hány másodperc telt el.
 
-var vesztett = new Audio('kellekek/vesztettel.mp3');
-var win = new Audio('kellekek/gyozelem.mp3');
-win.volume = 0.6;
+var vesztettAudio = document.getElementById('vesztett-audio');
+var winAudio = document.getElementById('win-audio');
+winAudio.volume = 0.4;
 
 initGame(); // Ezzel a függvénnyel indítjuk el a játékot.
 
@@ -61,12 +61,11 @@ canvas.addEventListener("click", function(event) {  // Ezzel a függvénnyel viz
   drawMap();
   if (map[y][x] === mine && exploredMap[y][x]) {
   loseGame();
-  vesztett.play(); // Ezzel a függvénnyel indítjuk el a zenét.
   stopTimer();
   revealAllMines();
   } else if (exploredFields === (columns * rows) - mineCount) {
   isGameOver = true;
-  win.play();
+  winAudio.play();
   actionButton.src = buttons.won;
   stopTimer();
   flagAllMines();
@@ -125,6 +124,7 @@ function loseGame() {
       }
     }
   }
+  vesztettAudio.play();
 };
 
 function flagAllMines() {
