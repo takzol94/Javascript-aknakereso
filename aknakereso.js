@@ -4,7 +4,6 @@ const actionButton = document.getElementById("action-button");
 const mineCounter = document.getElementById("mine-count");
 const timerCounter = document.getElementById("time");
 
-
 const size = 50;
 const columns = canvas.width / size;
 const rows = canvas.height / size;
@@ -42,6 +41,10 @@ let exploredMap // Ezzel a változóval vizsgáljuk meg, hogy melyik mezőt fede
 let remainingMines // Ezzel a változóval vizsgáljuk meg, hogy hány akna van még hátra.
 let timer // Ezzel a változóval vizsgáljuk meg, hogy hány másodperc telt el.
 
+var vesztett = new Audio('kellekek/vesztettel.mp3');
+var win = new Audio('kellekek/gyozelem.mp3');
+win.volume = 0.6;
+
 initGame(); // Ezzel a függvénnyel indítjuk el a játékot.
 
 canvas.addEventListener("click", function(event) {  // Ezzel a függvénnyel vizsgáljuk meg, hogy melyik mezőt kattintottuk meg.
@@ -58,10 +61,12 @@ canvas.addEventListener("click", function(event) {  // Ezzel a függvénnyel viz
   drawMap();
   if (map[y][x] === mine && exploredMap[y][x]) {
   loseGame();
+  vesztett.play(); // Ezzel a függvénnyel indítjuk el a zenét.
   stopTimer();
   revealAllMines();
   } else if (exploredFields === (columns * rows) - mineCount) {
   isGameOver = true;
+  win.play();
   actionButton.src = buttons.won;
   stopTimer();
   flagAllMines();
@@ -120,8 +125,7 @@ function loseGame() {
       }
     }
   }
-}
-
+};
 
 function flagAllMines() {
   for (let j = 0; j < rows; j++) {
@@ -129,8 +133,7 @@ function flagAllMines() {
       if (map[j][i] === mine) {
         flagMap[j][i] = true;
       }
-      let remainingMines = 0;
-      mineCounter.innerHTML = convertNumberTo3DigitString(remainingMines);
+      mineCounter.innerHTML = convertNumberTo3DigitString(0);
     }
   }
   drawMap();
