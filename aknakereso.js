@@ -8,7 +8,7 @@ const size = 50;
 const columns = canvas.width / size;
 const rows = canvas.height / size;
 const mine = "mine";
-const mineCount = 3;
+const mineCount = 25;
 const images = {
   "hidden": document.getElementById("hidden"),
   "mine": document.getElementById("exploded-mine"),
