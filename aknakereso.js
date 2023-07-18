@@ -5,9 +5,6 @@ const mineCounter = document.getElementById("mine-count");
 const timerCounter = document.getElementById("time");
 const difficultySelect = document.getElementById("difficulty");
 
-let size = 50;
-const columns = canvas.width / size;
-const rows = canvas.height / size;
 const mine = "mine";
 const images = {
   "hidden": document.getElementById("hidden"),
@@ -32,6 +29,9 @@ const buttons = {
   won: "kellekek/button-won.png",
 }
 
+let size // Ezzel a változóval vizsgáljuk meg, hogy milyen méretű legyen a pálya.
+let columns // Ezzel a változóval vizsgáljuk meg, hogy hány oszlop legyen a pályán.
+let rows // Ezzel a változóval vizsgáljuk meg, hogy hány sor legyen a pályán.
 let mineCount // Ezzel a változóval vizsgáljuk meg, hogy hány akna van a pályán.
 let isGameOver // Ezzel a változóval vizsgáljuk meg, hogy vége van-e a játéknak.
 let isfirstClick // Ezzel a változóval vizsgáljuk meg, hogy az első kattintás volt-e.
@@ -106,27 +106,29 @@ function initGame() { // Ezzel a függvénnyel indítjuk el a játékot.
   isGameOver = false;
   isfirstClick = true;
   exploredFields = 0;
+  if (difficultySelect.value === "easy") {
+    size = 60;
+    columns = canvas.width / size;
+    rows = canvas.height / size;
+    mineCount = 20;
+  } else if (difficultySelect.value === "medium") {
+    size = 52;
+    columns = canvas.width / size;
+    rows = canvas.height / size;
+    mineCount = 40;
+  } else if (difficultySelect.value === "hard") {
+    size = 39;
+    columns = canvas.width / size;
+    rows = canvas.height / size;
+    mineCount = 80;
+  }
   map = createMap();
   exploredMap = createBoolenMap();
   flagMap = createBoolenMap();
   drawMap();
   actionButton.src = buttons.start;
-  remainingMines = getMineCountFromDifficulty();
+  remainingMines = mineCount;
   mineCounter.innerHTML = convertNumberTo3DigitString(remainingMines);
-};
-
-function getMineCountFromDifficulty() { // Ezzel a függvénnyel vizsgáljuk meg, hogy milyen nehézségi szintet választottunk.
-  const difficulty = difficultySelect.value;
-  if (difficulty === "easy") {
-    mineCount = 10;
-    return 10;
-  } else if (difficulty === "medium") {
-    mineCount = 25;
-    return 25;
-  } else if (difficulty === "hard") {
-    mineCount = 50;
-    return 50;
-  }
 };
 
 function loseGame() { // Ezzel a függvénnyel vesztettünk.
