@@ -61,7 +61,6 @@
   <audio id="win-audio" src="kellekek/gyozelem.mp3"></audio>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      drawMap();
       const canvas = document.getElementById("myCanvas");
       const c = canvas.getContext("2d");
       const startButton = document.getElementById("start-button");
@@ -72,7 +71,8 @@
         timerCounter.innerHTML = convertNumberTo3DigitString(0);
         clearInterval(timer)
       });
-      console.log("Nehézségi szint:", difficulty);
+        console.log("Nehézségi szint:", difficulty);
+        drawMap();
     });
   </script>
   <script src="aknakereso.js"></script>
