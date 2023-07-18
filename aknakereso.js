@@ -65,11 +65,7 @@ canvas.addEventListener("click", function(event) {  // Ezzel a függvénnyel viz
   stopTimer();
   revealAllMines();
   } else if (exploredFields === (columns * rows) - mineCount) {
-  isGameOver = true;
-  winAudio.play();
-  actionButton.src = buttons.won;
-  stopTimer();
-  flagAllMines();
+    winGame();
   }
 });
 
@@ -142,6 +138,14 @@ function loseGame() { // Ezzel a függvénnyel vesztettünk.
     }
   }
   vesztettAudio.play();
+};
+
+function winGame() {
+  isGameOver = true;
+  winAudio.play();
+  actionButton.src = buttons.won;
+  stopTimer();
+  flagAllMines();
 };
 
 function flagAllMines() { // Ezzel a függvénnyel zászlózzuk az összes aknát.
