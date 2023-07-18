@@ -5,8 +5,30 @@
   <title>Aknakereso</title>
   <link href="https://fonts.cdnfonts.com/css/caveat" rel="stylesheet">
   <link rel="stylesheet" href="aknakereso.css">
+  <style>
+    .menu {
+      position: absolute;
+      left: 0;
+      top: 0;
+      padding: 10px;
+      background-color: #5b9253;
+      font-family: Arial, sans-serif;
+    }
+    .menu select {
+      margin-right: 10px;
+    }
+  </style>
 </head>
 <body>
+  <div class="menu">
+    <label for="difficulty">Nehézségi szint:</label>
+    <select id="difficulty">
+      <option value="easy">Könnyű</option>
+      <option value="medium">Közepes</option>
+      <option value="hard">Nehéz</option>
+    </select>
+    <button id="start-button">Start</button>
+  </div>
   <main>
     <div id="control-panel">
       <div class="text-on-image">
@@ -39,9 +61,18 @@
   <audio id="win-audio" src="kellekek/gyozelem.mp3"></audio>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
+      drawMap();
       const canvas = document.getElementById("myCanvas");
       const c = canvas.getContext("2d");
-      drawMap();
+      const startButton = document.getElementById("start-button");
+      const difficultySelect = document.getElementById("difficulty");
+      startButton.addEventListener("click", function() {
+        const difficulty = difficultySelect.value;
+        initGame(difficulty);
+        timerCounter.innerHTML = convertNumberTo3DigitString(0);
+        clearInterval(timer)
+      });
+      console.log("Nehézségi szint:", difficulty);
     });
   </script>
   <script src="aknakereso.js"></script>

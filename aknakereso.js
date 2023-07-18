@@ -3,12 +3,12 @@ const c = canvas.getContext("2d");
 const actionButton = document.getElementById("action-button");
 const mineCounter = document.getElementById("mine-count");
 const timerCounter = document.getElementById("time");
+const difficultySelect = document.getElementById("difficulty");
 
-const size = 50;
+let size = 50;
 const columns = canvas.width / size;
 const rows = canvas.height / size;
 const mine = "mine";
-const mineCount = 25;
 const images = {
   "hidden": document.getElementById("hidden"),
   "mine": document.getElementById("exploded-mine"),
@@ -32,6 +32,7 @@ const buttons = {
   won: "kellekek/button-won.png",
 }
 
+let mineCount // Ezzel a változóval vizsgáljuk meg, hogy hány akna van a pályán.
 let isGameOver // Ezzel a változóval vizsgáljuk meg, hogy vége van-e a játéknak.
 let isfirstClick // Ezzel a változóval vizsgáljuk meg, hogy az első kattintás volt-e.
 let exploredFields // Ezzel a változóval vizsgáljuk meg, hogy hány mezőt fedeztünk fel.
@@ -72,7 +73,7 @@ canvas.addEventListener("click", function(event) {  // Ezzel a függvénnyel viz
   }
 });
 
-  canvas.addEventListener("contextmenu", function(event) {
+  canvas.addEventListener("contextmenu", function(event) {  // Ezzel a függvénnyel vizsgáljuk meg, hogy melyik mezőre tettünk zászlót.
     event.preventDefault();
     const x = Math.floor(event.offsetX / size);
     const y = Math.floor(event.offsetY / size);
@@ -83,7 +84,7 @@ canvas.addEventListener("click", function(event) {  // Ezzel a függvénnyel viz
     mineCounter.innerHTML = convertNumberTo3DigitString(remainingMines);
   });
 
-function startTimer() {
+function startTimer() { // Ezzel a függvénnyel indítjuk el a stoppert.
   seconds = 0;
   timer = setInterval(function() {
     seconds = Math.min(seconds + 1, 999);
@@ -91,7 +92,7 @@ function startTimer() {
   }, 1000);
 };
 
-function stopTimer() {
+function stopTimer() { // Ezzel a függvénnyel állítjuk le a stoppert.
   clearInterval(timer);
 }
 
@@ -101,7 +102,7 @@ actionButton.addEventListener("click", function() {  // Ezzel a függvénnyel in
   timerCounter.innerHTML = convertNumberTo3DigitString(0);
 });
 
-function initGame() {
+function initGame() { // Ezzel a függvénnyel indítjuk el a játékot.
   isGameOver = false;
   isfirstClick = true;
   exploredFields = 0;
@@ -110,11 +111,25 @@ function initGame() {
   flagMap = createBoolenMap();
   drawMap();
   actionButton.src = buttons.start;
-  remainingMines = mineCount;
+  remainingMines = getMineCountFromDifficulty();
   mineCounter.innerHTML = convertNumberTo3DigitString(remainingMines);
 };
 
-function loseGame() {
+function getMineCountFromDifficulty() { // Ezzel a függvénnyel vizsgáljuk meg, hogy milyen nehézségi szintet választottunk.
+  const difficulty = difficultySelect.value;
+  if (difficulty === "easy") {
+    mineCount = 10;
+    return 10;
+  } else if (difficulty === "medium") {
+    mineCount = 25;
+    return 25;
+  } else if (difficulty === "hard") {
+    mineCount = 50;
+    return 50;
+  }
+};
+
+function loseGame() { // Ezzel a függvénnyel vesztettünk.
   isGameOver = true;
   actionButton.src = buttons.lost;
   for (let j = 0; j < rows; j++) {
@@ -127,7 +142,7 @@ function loseGame() {
   vesztettAudio.play();
 };
 
-function flagAllMines() {
+function flagAllMines() { // Ezzel a függvénnyel zászlózzuk az összes aknát.
   for (let j = 0; j < rows; j++) {
     for (let i = 0; i < columns; i++) {
       if (map[j][i] === mine) {
@@ -139,7 +154,7 @@ function flagAllMines() {
   drawMap();
 };
 
-function revealAllMines() {
+function revealAllMines() { // Ezzel a függvénnyel megmutatjuk az összes aknát.
   for (let j = 0; j < rows; j++) {
     for (let i = 0; i < columns; i++) {
       if (map[j][i] === mine && !flagMap[j][i] && !exploredMap[j][i]) {
@@ -149,7 +164,7 @@ function revealAllMines() {
   }
 };
 
-function exploreField(y, x) {
+function exploreField(y, x) { // Ezzel a függvénnyel fedezzük fel a mezőket.
   if (!exploredMap[y][x] && !flagMap[y][x]) {
     exploredFields++;
     exploredMap[y][x] = true;
@@ -163,7 +178,7 @@ function exploreField(y, x) {
   }
 };
 
-function calculateFieldValues(map) {  
+function calculateFieldValues(map) {   // Ezzel a függvénnyel számoljuk ki, hogy egy mező körül hány akna van.
   for (let j = 0; j < rows; j++) {
     for (let i = 0; i < columns; i++) {
       let field = map[j][i];
@@ -176,7 +191,7 @@ function calculateFieldValues(map) {
   }
 };
 
-function countMines(map, neighbourCalculates) {  
+function countMines(map, neighbourCalculates) {  // Ezzel a függvénnyel számoljuk ki, hogy egy mező körül hány akna van.
   let countMine = 0;
   for (let k = 0; k < neighbourCalculates.length; k++) {
     let neighbour = neighbourCalculates[k];
@@ -202,7 +217,7 @@ function findNeighboursFields(map, j, i) {  // Ezzel a függvénnyel keresem meg
 return neighbourCalculates;
 };
 
-function placeMines(map, mineCount, j, i) {
+function placeMines(map, mineCount, j, i) { // Ezzel a függvénnyel helyezzük el random az aknákat a pályán.
   let mines = 0;
   while (mines < mineCount) {
     let x = Math.floor(Math.random() * columns);
@@ -214,7 +229,7 @@ function placeMines(map, mineCount, j, i) {
   }
 }
 
-function createBoolenMap() {
+function createBoolenMap() { 
   let exploredMap = [];
   for (let j = 0; j < rows; j++) {
     let row = [];
@@ -226,7 +241,7 @@ function createBoolenMap() {
   return exploredMap;
 }
 
-function createMap() {
+function createMap() { // Ezzel a függvénnyel hozzuk létre a pályát.
   let map = [];
   for (let j = 0; j < rows; j++) {
     let row = [];
@@ -238,7 +253,7 @@ function createMap() {
   return map;
 }
 
-function drawMap() {
+function drawMap() { // Ezzel a függvénnyel rajzoljuk ki a pályát.
   for (let j = 0; j < rows; j++) {
     for (let i = 0; i < columns; i++) {
       if (!exploredMap[j][i]) {
@@ -260,11 +275,11 @@ function drawMap() {
   }
 }
 
-function drawImage(image, x,  y) {
+function drawImage(image, x,  y) { // Ezzel a függvénnyel rajzoljuk ki a képeket.
   c.drawImage(image, x, y, size, size);
 }
 
-function convertNumberTo3DigitString(number) {
+function convertNumberTo3DigitString(number) { // Ezzel a függvénnyel alakítjuk át a számokat 3 számjegyűre.
   if (number < 0) {
     return '🛑';
   } 
