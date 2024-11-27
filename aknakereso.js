@@ -111,7 +111,7 @@ function initGame() { // Ezzel a függvénnyel indítjuk el a játékot.
     size = 52;
     columns = canvas.width / size;
     rows = canvas.height / size;
-    mineCount = 35;
+    mineCount = 40;
   } else if (difficultySelect.value === "hard") {
     size = 39;
     columns = canvas.width / size;
