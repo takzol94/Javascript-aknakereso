@@ -13,6 +13,18 @@ html, body {
   font-family: 'Caveat', sans-serif;
 }
 
+.menu {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 10px;
+  background-color: #5b9253;
+  font-family: Arial, sans-serif;
+}
+.menu select {
+  margin-right: 10px;
+}
+
 body {
   background-image: url("kellekek/wooden_background.png");
   background-size: contain;
