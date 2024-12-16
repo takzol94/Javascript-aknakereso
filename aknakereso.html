@@ -46,22 +46,6 @@
   <img id="flagged-wrong" src="kellekek/flagged-wrong.png" style="display: none;">
   <audio id="vesztett-audio" src="kellekek/vesztettel.mp3" preload="auto"></audio>
   <audio id="win-audio" src="kellekek/gyozelem.mp3" preload="auto"></audio>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const canvas = document.getElementById("myCanvas");
-      const c = canvas.getContext("2d");
-      const startButton = document.getElementById("start-button");
-      const difficultySelect = document.getElementById("difficulty");
-      startButton.addEventListener("click", function() {
-        const difficulty = difficultySelect.value;
-        initGame(difficulty);
-        timerCounter.innerHTML = convertNumberTo3DigitString(0);
-        clearInterval(timer)
-      });
-        console.log("Nehézségi szint:", difficulty);
-        drawMap();
-    });
-  </script>
   <script src="aknakereso.js"></script>
 </body>
 </html>

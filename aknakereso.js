@@ -46,6 +46,21 @@ var vesztettAudio = document.getElementById('vesztett-audio');
 var winAudio = document.getElementById('win-audio');
 winAudio.volume = 0.4;
 
+document.addEventListener("DOMContentLoaded", function() {
+  const canvas = document.getElementById("myCanvas");
+  const c = canvas.getContext("2d");
+  const startButton = document.getElementById("start-button");
+  const difficultySelect = document.getElementById("difficulty");
+  startButton.addEventListener("click", function() {
+    const difficulty = difficultySelect.value;
+    initGame(difficulty);
+    timerCounter.innerHTML = convertNumberTo3DigitString(0);
+    clearInterval(timer)
+  });
+    console.log("Nehézségi szint:", difficulty);
+    drawMap();
+});
+
 initGame(); // Ezzel a függvénnyel indítjuk el a játékot.
 
 canvas.addEventListener("click", function(event) {  // Ezzel a függvénnyel vizsgáljuk meg, hogy melyik mezőt kattintottuk meg.
